@@ -7,6 +7,8 @@ import 'dart:convert';
 
 class NewsService {
 
+  int page = 0;
+
   bool isLoading = false;
 
   Future<List<NewsItem>> fetchNews(http.Client client, id) async {

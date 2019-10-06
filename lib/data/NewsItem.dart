@@ -12,6 +12,7 @@ class NewsItem {
   String link;
   String introText;
   String image;
+  DateTime created;
 
   factory NewsItem.fromJson(Map<String, dynamic> json) => _$NewsItemFromJson(json);
 

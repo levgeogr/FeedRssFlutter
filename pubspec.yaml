@@ -14,11 +14,10 @@ dependencies:
   webfeed: ^0.4.2
   json_annotation: ^2.4.0
   cupertino_icons: ^0.1.2
-  dio: 2.0.22
 
   retrofit: any
   logger: any  #for logging purpose
-
+  dio: 3.0.3
 
 
 dev_dependencies:

@@ -8,11 +8,14 @@ part of 'NewsItem.dart';
 
 NewsItem _$NewsItemFromJson(Map<String, dynamic> json) {
   return NewsItem(
-      json['id'] as int,
-      json['title'] as String,
-      json['link'] as String,
-      json['introText'] as String,
-      json['image'] as String);
+    json['id'] as int,
+    json['title'] as String,
+    json['link'] as String,
+    json['introText'] as String,
+    json['image'] as String,
+  )..created = json['created'] == null
+      ? null
+      : DateTime.parse(json['created'] as String);
 }
 
 Map<String, dynamic> _$NewsItemToJson(NewsItem instance) => <String, dynamic>{
@@ -20,5 +23,6 @@ Map<String, dynamic> _$NewsItemToJson(NewsItem instance) => <String, dynamic>{
       'title': instance.title,
       'link': instance.link,
       'introText': instance.introText,
-      'image': instance.image
+      'image': instance.image,
+      'created': instance.created?.toIso8601String(),
     };
