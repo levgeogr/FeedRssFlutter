@@ -22,6 +22,10 @@ class _NewsListPageState extends State<NewsListPage> {
 
   bool isLoading = false;
 
+  int newsCount = 10;
+
+  int page = 1;
+
   List news = new List();
 
   final dio = new Dio();
@@ -42,12 +46,19 @@ class _NewsListPageState extends State<NewsListPage> {
         };
       }
 
-      final response = await dio.get(url);
+      url = Constant.mainDomain + Constant.newsUrl;
+      final response = await dio.get(url, queryParameters: {
+        "format": "json",
+        "limit": newsCount.toString(),
+        "page": page.toString(),
+      });
+
       List tempList = new List();
-      url = response.data['next'];
-      for (int i = 0; i < response.data['results'].length; i++) {
-        tempList.add(response.data['results'][i]);
+      for (int i = 0; i < response.data['items'].length; i++) {
+        tempList.add(response.data['items'][i]);
       }
+
+      page ++;
 
       setState(() {
         isLoading = false;
@@ -70,23 +81,25 @@ class _NewsListPageState extends State<NewsListPage> {
 
   Widget _buildList() {
     return ListView.builder(
-        itemCount: news.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == news.length) {
-            return _buildProgressIndicator();
-          }
-          else {
-//            return new ListTile(
-//              title: news[index]['title'],
+      itemCount: news.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == news.length) {
+          return _buildProgressIndicator();
+        }
+        else {
+          return new ListTile(
+            title: Text(news[index]['title']),
+          );
+
+//            return new Card (
+//              child: new Image.network(
+//                  Constant.mainDomain + news[index]['image']),
+//
 //            );
-
-            return new Card (
-              child: new Image.network(
-                  Constant.mainDomain + news[index]['image']),
-
-            );
-          }
-        });
+        }
+      },
+      controller: _scrollController,
+    );
   }
 
   @override
